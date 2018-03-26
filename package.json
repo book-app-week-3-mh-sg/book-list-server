@@ -1,0 +1,29 @@
+{
+  "name": "book-list-server",
+  "version": "1.0.0",
+  "description": "Book app for Code 301",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/book-app-week-3-mh-sg/book-list-server.git"
+  },
+  "keywords": [
+    "book",
+    "301"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/book-app-week-3-mh-sg/book-list-server/issues"
+  },
+  "homepage": "https://github.com/book-app-week-3-mh-sg/book-list-server#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "pg": "^7.4.1"
+  }
+}
