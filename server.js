@@ -21,10 +21,11 @@ app.use(cors());
 
 // API endpoints
 
-app.get('/api/v1/books', (req,res) =>
+app.get('/api/v1/books', (req,res) => {
   client.query(`SELECT book_id, title, author, image_url FROM books;`)
     .then(result => res.send(result.rows))
-    .catch(console.error));
+    .catch(console.error);
+})
 
 // This app.get will need a lot more fleshing out once the database is operational
 
