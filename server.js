@@ -22,15 +22,15 @@ app.use(cors());
 // API endpoints
 
 app.get('/api/v1/books', (req,res) => {
-  client.query(`SELECT book_id, title, author, image_url FROM books;`)
+  client.query(`SELECT book_id, title, author, image_url, isbn, description FROM books;`)
     .then(result => res.send(result.rows))
     .catch(console.error);
 })
 
-app.get('/api/v1/books/:id', (req, res) => {
+app.get('/api/v1/books/:book_id', (req, res) => {
   client.query(
-    `SELECT book_id, title, author, image_url FROM books
-    WHERE book_id=$1;`, [req.params.id])
+    `SELECT book_id, title, author, image_url, description FROM books
+    WHERE book_id=$1;`, [req.params.book_id])
     .then(result => res.send(result.rows))
 })
 
@@ -44,8 +44,7 @@ app.post('/api/v1/books'), (req, res) => {
       req.body.isbn,
       req.body.description],
     function(err) {if (err) console.error(err)}
-  )
-  res.send('Insert complete');
+  ).then(res.send('Insert complete'))
 }
 
 // This app.get will need a lot more fleshing out once the database is operational
