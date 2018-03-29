@@ -5,6 +5,7 @@
 const express = require('express');
 const pg = require('pg');
 const cors = require('cors');
+const bp = require('body-parser')
 
 // Application Setup
 
@@ -18,6 +19,8 @@ const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', err => console.error(err));
 app.use(cors());
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: true }));
 
 // API endpoints
 
@@ -34,10 +37,10 @@ app.get('/api/v1/books/:book_id', (req, res) => {
     .then(result => res.send(result.rows))
 })
 
-app.post('/api/v1/books'), (req, res) => {
+app.post('/api/v1/books', (req, res) => {
   client.query(
-    `INSERT INTO books (title, author, image_url, isbn, description)
-    VALUES ($1, $2, $3, $4, $5);`,
+    `INSERT INTO books(title, author, image_url, isbn, description)
+    VALUES($1, $2, $3, $4, $5)`,
     [ req.body.title,
       req.body.author,
       req.body.image_url,
@@ -45,7 +48,8 @@ app.post('/api/v1/books'), (req, res) => {
       req.body.description],
     function(err) {if (err) console.error(err)}
   ).then(res.send('Insert complete'))
-}
+    .catch(console.error)
+})
 
 // This app.get will need a lot more fleshing out once the database is operational
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
