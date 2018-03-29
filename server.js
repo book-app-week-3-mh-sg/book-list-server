@@ -61,16 +61,15 @@ app.delete('/api/v1/books/:book_id', (request, response) => {
 });
 
 app.put('/api/v1/books/:book_id', (request, response) => {
-  console.log(request);
   client.query(
     ` UPDATE books 
-      SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5 WHERE book_id=$6;`
-      [ request.body.title,
-        request.body.author,
-        request.body.isbn,
-        request.body.image_url,
-        request.body.description,
-        request.params.book_id]
+      SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5 WHERE book_id=$6;`,
+    [ request.body.title,
+      request.body.author,
+      request.body.isbn,
+      request.body.image_url,
+      request.body.description,
+      request.params.book_id]
   )
     .then(() => {
       response.send('update complete')
