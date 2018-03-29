@@ -22,7 +22,7 @@ app.use(cors());
 // API endpoints
 
 app.get('/api/v1/books', (req,res) => {
-  client.query(`SELECT book_id, title, author, image_url, isbn, description FROM books;`)
+  client.query(`SELECT * FROM books;`)
     .then(result => res.send(result.rows))
     .catch(console.error);
 })
