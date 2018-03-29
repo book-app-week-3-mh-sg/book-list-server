@@ -32,15 +32,16 @@ app.get('/api/v1/books', (req,res) => {
 
 app.get('/api/v1/books/:book_id', (req, res) => {
   client.query(
-    `SELECT book_id, title, author, image_url, description FROM books
-    WHERE book_id=$1;`, [req.params.book_id])
+    ` SELECT * FROM books
+      WHERE book_id=$1;`, 
+    [req.params.book_id])
     .then(result => res.send(result.rows))
 })
 
 app.post('/api/v1/books', (req, res) => {
   client.query(
-    `INSERT INTO books(title, author, image_url, isbn, description)
-    VALUES($1, $2, $3, $4, $5)`,
+    ` INSERT INTO books(title, author, image_url, isbn, description)
+      VALUES($1, $2, $3, $4, $5)`,
     [ req.body.title,
       req.body.author,
       req.body.image_url,
@@ -60,21 +61,23 @@ app.delete('/api/v1/books/:book_id', (request, response) => {
 });
 
 app.put('/api/v1/books/:book_id', (request, response) => {
+  console.log(request);
   client.query(
-    `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5 WHERE book_id=$6;`, [
-      request.body.title,
-      request.body.author,
-      request.body.isbn,
-      request.body.image_url,
-      request.body.description,
-      request.params.book_id]
+    ` UPDATE books 
+      SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5 WHERE book_id=$6;`
+      [ request.body.title,
+        request.body.author,
+        request.body.isbn,
+        request.body.image_url,
+        request.body.description,
+        request.params.book_id]
   )
-  .then(() => {
-    response.send('update complete')
-  })
-  .catch(err => {
-    console.error(err);
-  });
+    .then(() => {
+      response.send('update complete')
+    })
+    .catch(err => {
+      console.error(err);
+    });
 });
 
 // This app.get will need a lot more fleshing out once the database is operational
