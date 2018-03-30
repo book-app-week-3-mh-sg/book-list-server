@@ -14,7 +14,6 @@ const PORT = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
 
 // Database Setup
-
 const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', err => console.error(err));
@@ -23,7 +22,6 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 
 // API endpoints
-
 app.get('/api/v1/books', (req,res) => {
   client.query(`SELECT * FROM books;`)
     .then(result => res.send(result.rows))
